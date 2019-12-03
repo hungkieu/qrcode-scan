@@ -1,0 +1,5 @@
+const SELECT_MENU_ITEM = 'ROOT/SELECT_MENU_ITEM';
+
+export {
+  SELECT_MENU_ITEM,
+};

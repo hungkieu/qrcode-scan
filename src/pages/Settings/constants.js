@@ -1,0 +1,5 @@
+const CHANGE_URL = 'SETTINGS/CHANGE_URL';
+
+export {
+  CHANGE_URL,
+};

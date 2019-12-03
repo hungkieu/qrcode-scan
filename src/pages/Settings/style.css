@@ -1,0 +1,13 @@
+.Settings {
+  background-color: rgb(240, 242, 245);
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+form.SettingForm {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  background: white;
+  padding: 8px;
+}
