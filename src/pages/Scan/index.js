@@ -19,6 +19,7 @@ const Scan = ({ history }) => {
     } else {
       dispatch(qrcodeResetStateAction());
       dispatch(qrcodeChangeTextAction(text));
+      dispatch(rootSelectMenuItemAction('qrcode'));
       goToQRCode();
       canncelScan();
     }

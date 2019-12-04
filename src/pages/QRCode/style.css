@@ -21,7 +21,7 @@
 }
 
 .QRCodeResult .Result {
-  min-height: 200px;
+  min-height: 150px;
   padding: 12px;
   border-bottom: solid 1px #e8e8e8;
 }

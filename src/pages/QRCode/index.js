@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Layout, Button, Result, Skeleton } from 'antd';
+import { Layout, Button, Result, Skeleton, Descriptions } from 'antd';
 import useInjectReducer from '../../common/utils/useInjectReducer';
 
 import './style.css';
@@ -20,20 +20,35 @@ const CustomResult = ({ title, loading, className, response, error }) => {
     return <Skeleton className={className} title active loading={loading} />;
   }
 
-  if (response !== '' && response) {
-    return <Result status="success" title="Successfully Found Account" className={className} />  
-  }
-
-  if (response !== '') {
-    return <Result status="warning" title="Not Found Account" className={className} />  
+  if (Object.keys(response).length === 0 && error === '') {
+    return <Result title={title} className={className} />;
   }
 
   if (error !== '') {
     return <Result status="error" title="Checking Failed" className={className} />  
   }
 
-  return <Result title={title} className={className} />;
+  if (Object.keys(response).length && !response.not_found) {
+    return <Result status="success" title="Successfully Found Account" className={className} />  
+  } 
+  
+  if (response.not_found) {
+    return <Result status="warning" title="Not Found Account" className={className} />  
+  }
 };
+
+const Response = ({ response }) => {
+  if (Object.keys(response).length === 0) return <></>;
+  const { full_name, tel, email, dob } =response;
+  return <div className="Text">
+    <Descriptions title="Account Info">
+      <Descriptions.Item label="Full name">{full_name}</Descriptions.Item>
+      <Descriptions.Item label="Telephone">{tel}</Descriptions.Item>
+      <Descriptions.Item label="Email">{email}</Descriptions.Item>
+      <Descriptions.Item label="Day of birth">{dob}</Descriptions.Item>
+    </Descriptions>
+  </div>
+}
 
 const QRCode = ({ history }) => {
   useInjectReducer({ key: 'qrcode', reducer });
@@ -50,14 +65,13 @@ const QRCode = ({ history }) => {
     history.push('/scan');
   };
 
-  const check = () => {
-    dispatch(checkQRCode());
-  };
+  useEffect(() => {
+    if(text) dispatch(checkQRCode());
+  }, [dispatch, text]);
 
   return (
     <Layout className="QRCode">
       <div className="QRCodeResult">
-        <div className="Text">{text}</div>
         <CustomResult
           className="Result"
           title="You haven't checked the QRCode out yet"
@@ -65,18 +79,10 @@ const QRCode = ({ history }) => {
           response={response}
           error={error}
         />
+        <Response response={response} />
         <div className="Actions">
           <Button className="new" type="danger" icon="scan" onClick={goToScan}>
             New QRCode
-          </Button>
-          <Button
-            className="check"
-            type="primary"
-            loading={loading}
-            icon="check"
-            onClick={check}
-          >
-            Check
           </Button>
         </div>
       </div>

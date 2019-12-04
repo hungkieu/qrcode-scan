@@ -9,7 +9,7 @@ import {
 export const qrcodeInitialState = {
   text: '',
   loading: false,
-  response: '',
+  response: {},
   error: ''
 };
 
@@ -41,7 +41,7 @@ const qrcodeReducer = (state = qrcodeInitialState, action) => {
       draftState = {
         ...state,
         loading: false,
-        response: '',
+        response: {},
         error: action.error,
       };
       break;

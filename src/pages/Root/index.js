@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import { Layout } from "antd";
-import { Menu, Icon } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Layout } from 'antd';
+import { Menu, Icon } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 
-import "./style.css";
+import './style.css';
 
-import QRCode from "../QRCode";
-import Scan from "../Scan";
-import Settings from "../Settings";
+import QRCode from '../QRCode';
+import Scan from '../Scan';
+import Settings from '../Settings';
 
-import { selectMenuItem } from "./actions";
-import { selectKey } from "./selectors";
+import { selectMenuItem } from './actions';
+import { selectKey } from './selectors';
 
 const { Footer, Content } = Layout;
 const { Item } = Menu;
@@ -19,7 +19,7 @@ const { Item } = Menu;
 const getKey = () => {
   let key = window.location.pathname.substr(1);
   return key === '' ? 'qrcode' : key;
-}
+};
 
 function Root() {
   const dispatch = useDispatch();
@@ -41,11 +41,14 @@ function Root() {
             <Route path="/scan">
               <Scan />
             </Route>
-            <Route exact path={["/", "/qrcode"]}>
+            <Route exact path={['/', '/qrcode']}>
               <QRCode />
             </Route>
             <Route path="/settings">
               <Settings />
+            </Route>
+            <Route path="*">
+              <Redirect to="/" />
             </Route>
           </Switch>
         </Content>
